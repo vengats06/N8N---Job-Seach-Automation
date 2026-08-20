@@ -1,0 +1,480 @@
+{
+  "name": "venjobbot",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -176
+      ],
+      "id": "abc5d49f-e949-424d-ad67-3e092ab3a674",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "chatId": "5130867402",
+        "text": "=Name: {{ $json.company.display_name }}\nTitle: {{ $json.title }}\nLocation : {{ $json.location.display_name }}\nLink : {{ $json.redirect_url }}\nDate and Time: {{ $json.created }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1216,
+        -400
+      ],
+      "id": "2d1b9c87-2518-411f-b3b9-f5646e1281d2",
+      "name": "Send a text message",
+      "webhookId": "56365897-6da6-41f9-afd7-2515cfd942ef",
+      "credentials": {
+        "telegramApi": {
+          "id": "uQEs9oTxlAYB4C8c",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.adzuna.com/v1/api/jobs/in/search/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "app_id",
+              "value": "1e5254e3"
+            },
+            {
+              "name": "app_key",
+              "value": "b6926130eaa3450cdbe28e4d95b56a1a"
+            },
+            {
+              "name": "results_per_page",
+              "value": "100"
+            },
+            {
+              "name": "=where",
+              "value": "=kerala"
+            },
+            {
+              "name": "what",
+              "value": "=data analyst"
+            },
+            {
+              "name": "max_days_old",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        384,
+        -176
+      ],
+      "id": "0c05a1b2-0346-4626-a54c-21b8820a15dd",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        800,
+        -176
+      ],
+      "id": "ca7f2724-bbc6-438f-a79e-900eacc67d4d",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "624e5942-c293-4d8f-92ea-a2303e9b6934",
+              "leftValue": "={{ $json.description }}",
+              "rightValue": "entry",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "08e8218b-6ed6-4344-b09f-7e901f4bcd75",
+              "leftValue": "={{ $json.description }}",
+              "rightValue": "fresher",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "e0f2a45d-a42c-45d7-992b-5cdb107d2db9",
+              "leftValue": "={{ $json.description }}",
+              "rightValue": "intern",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "bbfe4a24-0c41-4834-a1b5-dd282c52fdc5",
+              "leftValue": "={{ $json.description }}",
+              "rightValue": "graduate",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "60d1bb9d-9de0-4d62-973b-fd2c1cb79e13",
+              "leftValue": "={{ $json.description }}",
+              "rightValue": "trainee",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "498ffd81-8bfc-4c4b-8a49-c791468007a9",
+              "leftValue": "={{ $json.description }}",
+              "rightValue": "junior",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "64a101f0-703e-46fe-a96f-c9633f0557fb",
+              "leftValue": "={{ $json.description }}",
+              "rightValue": "apprentice",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        -320
+      ],
+      "id": "c8e86aff-78b4-4a3a-b271-e48831da19e6",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "url": "https://api.adzuna.com/v1/api/jobs/in/search/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "app_id",
+              "value": "1e5254e3"
+            },
+            {
+              "name": "app_key",
+              "value": "b6926130eaa3450cdbe28e4d95b56a1a"
+            },
+            {
+              "name": "results_per_page",
+              "value": "100"
+            },
+            {
+              "name": "=where",
+              "value": "=chennai"
+            },
+            {
+              "name": "what",
+              "value": "=data analyst"
+            },
+            {
+              "name": "max_days_old",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        416,
+        16
+      ],
+      "id": "266c8462-ecc6-4b19-96a0-5157f8ce5e38",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "url": "https://api.adzuna.com/v1/api/jobs/in/search/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "app_id",
+              "value": "1e5254e3"
+            },
+            {
+              "name": "app_key",
+              "value": "b6926130eaa3450cdbe28e4d95b56a1a"
+            },
+            {
+              "name": "results_per_page",
+              "value": "100"
+            },
+            {
+              "name": "=where",
+              "value": "=bengaluru"
+            },
+            {
+              "name": "what",
+              "value": "=data analyst "
+            },
+            {
+              "name": "max_days_old",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        400,
+        -368
+      ],
+      "id": "b6f52705-ca33-4407-90a7-f1df6df58326",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "url": "https://api.adzuna.com/v1/api/jobs/in/search/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "app_id",
+              "value": "1e5254e3"
+            },
+            {
+              "name": "app_key",
+              "value": "b6926130eaa3450cdbe28e4d95b56a1a"
+            },
+            {
+              "name": "results_per_page",
+              "value": "100"
+            },
+            {
+              "name": "=where",
+              "value": "=hyderabad"
+            },
+            {
+              "name": "what",
+              "value": "=data analyst "
+            },
+            {
+              "name": "max_days_old",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        432,
+        -528
+      ],
+      "id": "99e53aa1-7edd-4273-b049-3a9c67df7575",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "url": "https://api.adzuna.com/v1/api/jobs/in/search/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "app_id",
+              "value": "1e5254e3"
+            },
+            {
+              "name": "app_key",
+              "value": "b6926130eaa3450cdbe28e4d95b56a1a"
+            },
+            {
+              "name": "results_per_page",
+              "value": "100"
+            },
+            {
+              "name": "=where",
+              "value": "=coimbatore"
+            },
+            {
+              "name": "what",
+              "value": "=data analyst"
+            },
+            {
+              "name": "max_days_old",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        464,
+        176
+      ],
+      "id": "09339b05-15e8-48f8-a302-98aeb7e1e9be",
+      "name": "HTTP Request4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "5d9672cc-9b23-4689-bec1-e16e3ebe798b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f5499a904061adfc3c776fb5e0b9085790cea530786e9159c2246aada09c58bb"
+  },
+  "id": "wp9j1aKHUrFMEKez",
+  "tags": []
+}
